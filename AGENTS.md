@@ -323,7 +323,7 @@ npm.cmd run type-check
 # 详情 → 本地设置 → 勾选「不校验合法域名」
 ```
 
-**当前环境事实（P8 实测）**：JDK 17.0.21（`D:\Dev\Java\jdk-17`）、Maven 3.8.2、Node 24.18.0、MySQL 8.0.31（3306，`root/123456`，已建 `smarten_energy` 与 `smarten_energy_test`）。
+**当前环境事实（P8 实测）**：JDK 17.0.21（`D:\Dev\Java\jdk-17`）、Maven 3.8.2、Node 24.18.0、MySQL 8.0.31（3306，用户名 `root`，密码通过 `SMARTEN_DB_PASSWORD` 注入，已建 `smarten_energy` 与 `smarten_energy_test`）。
 dev/test 启动时自动执行 `db/schema.sql` + `db/data.sql`（幂等）。`/api/actuator/health` 当前为 `UP`。
 集成测试依赖本机 MySQL：`mvn test` 会连接 `smarten_energy_test`。
 

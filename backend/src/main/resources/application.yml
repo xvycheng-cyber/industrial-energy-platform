@@ -53,8 +53,8 @@ mybatis-plus:
 smarten:
   version: 1.0.0
   jwt:
-    # 生产环境必须通过环境变量覆盖；默认值仅用于本地开发
-    secret: ${SMARTEN_JWT_SECRET:smarten-dev-only-secret-please-change-0123456789}
+    # 必须通过环境变量提供（>=32 字节），仓库不保存任何默认密钥
+    secret: ${SMARTEN_JWT_SECRET}
     access-expire-minutes: 120
     refresh-expire-days: 7
   cors:

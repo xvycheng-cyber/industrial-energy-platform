@@ -12,7 +12,7 @@
 
 | 模块 | 状态 | 说明 |
 | --- | --- | --- |
-| 数据库 | ✅ | 24 张表，索引/唯一约束/注释完整，脚本幂等 |
+| 数据库 | ✅ | 25 张表，索引/唯一约束/注释完整，脚本幂等 |
 | 登录鉴权 | ✅ | 账号密码登录、JWT、刷新令牌、401/403 JSON |
 | 用户管理 | ✅ | 增删改查、分页、启停、重置密码、分配角色 |
 | 角色管理 | ✅ | 角色 CRUD、权限码配置、内置角色保护 |
@@ -105,7 +105,7 @@ mysql -h127.0.0.1 -P3306 -uroot -p smarten_energy < backend/src/main/resources/d
 mysql -h127.0.0.1 -P3306 -uroot -p smarten_energy < backend/src/main/resources/db/data.sql
 ```
 
-默认连接 `root/123456`（仅 dev/test），可用环境变量覆盖：`SMARTEN_DB_URL`、`SMARTEN_DB_USERNAME`、`SMARTEN_DB_PASSWORD`。
+连接信息通过环境变量提供（仓库中不含明文密码）：`SMARTEN_DB_URL`、`SMARTEN_DB_USERNAME`、`SMARTEN_DB_PASSWORD`。
 
 ### 5.2 后端
 
@@ -113,9 +113,13 @@ mysql -h127.0.0.1 -P3306 -uroot -p smarten_energy < backend/src/main/resources/d
 cd backend
 $env:JAVA_HOME='D:\Dev\Java\jdk-17'
 $env:Path="D:\Dev\Java\jdk-17\bin;$env:Path"
+$env:SMARTEN_DB_PASSWORD='你的本机数据库密码'
+$env:SMARTEN_JWT_SECRET='至少32字节的随机密钥'
 mvn clean package
 java -jar target\smarten-backend.jar --spring.profiles.active=dev
 ```
+
+> `dev` / `test` 不包含密码或 JWT 默认值：必须设置 `SMARTEN_DB_PASSWORD` 与 `SMARTEN_JWT_SECRET`，否则启动/测试会失败。
 
 | 地址 | 说明 |
 | --- | --- |

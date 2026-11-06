@@ -40,10 +40,14 @@ mysql -uroot -p smarten_energy < backend/src/main/resources/db/data.sql
 ```powershell
 $env:JAVA_HOME='D:\Dev\Java\jdk-17'
 $env:Path="D:\Dev\Java\jdk-17\bin;$env:Path"
+$env:SMARTEN_DB_PASSWORD='你的本机数据库密码'
+$env:SMARTEN_JWT_SECRET='至少32字节的随机密钥'
 cd backend
 mvn -DskipTests package
 java -jar target\smarten-backend.jar --spring.profiles.active=dev
 ```
+
+> `dev` / `test` 配置不包含明文密码或默认 JWT 密钥，`SMARTEN_DB_PASSWORD` 与 `SMARTEN_JWT_SECRET` 必须设置；运行 `mvn test` 前同样需要设置。
 
 - 健康检查：`GET http://127.0.0.1:8080/api/system/health`
 - Swagger（dev）：`http://127.0.0.1:8080/api/swagger-ui.html`

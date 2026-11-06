@@ -4,7 +4,7 @@ spring:
   datasource:
     url: "${SMARTEN_TEST_DB_URL:jdbc:mysql://localhost:3306/smarten_energy_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true}"
     username: ${SMARTEN_DB_USERNAME:root}
-    password: ${SMARTEN_DB_PASSWORD:123456}
+    password: ${SMARTEN_DB_PASSWORD}
     hikari:
       maximum-pool-size: 10
   sql:
