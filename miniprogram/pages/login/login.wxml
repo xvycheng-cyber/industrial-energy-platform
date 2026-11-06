@@ -1,0 +1,24 @@
+<view class="login">
+  <view class="brand">
+    <view class="logo">智</view>
+    <view class="title">智能耗</view>
+    <view class="subtitle">工业企业能耗画像与节能诊断平台</view>
+  </view>
+
+  <view class="form card">
+    <view class="form-item">
+      <text class="label">账号</text>
+      <input class="input" value="{{username}}" placeholder="请输入工程师账号" bindinput="onUsernameInput" />
+    </view>
+    <view class="form-item">
+      <text class="label">密码</text>
+      <input class="input" password value="{{password}}" placeholder="请输入密码" bindinput="onPasswordInput" />
+    </view>
+    <button class="btn-primary login-btn" loading="{{loading}}" bindtap="onLogin">登录</button>
+    <view class="diagnose" bindtap="onDiagnose">
+      <text class="diagnose-link">网络诊断</text>
+      <text class="diagnose-base">{{apiBase}}</text>
+    </view>
+    <view class="muted tip">联调账号：demo_engineer / Engineer@123；工程师账号由平台管理员分配。</view>
+  </view>
+</view>

@@ -1,0 +1,42 @@
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.rule {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.metrics {
+  display: flex;
+}
+
+.metric {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.num {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #1f2d3d;
+}
+
+.danger { color: #e5484d; }
+
+.evidence {
+  display: block;
+  padding: 20rpx;
+  background: #f7f9fc;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  color: #606266;
+  white-space: pre-wrap;
+  word-break: break-all;
+}

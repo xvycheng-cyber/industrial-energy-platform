@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="profile">
+    <view class="avatar">{{avatarChar}}</view>
+    <view class="info">
+      <view class="name">{{profile.realName || profile.username || '工程师'}}</view>
+      <view class="role">{{profile.roles ? profile.roles.join(' / ') : 'ENGINEER'}}</view>
+      <view class="phone">{{profile.phone || '未填写手机号'}}</view>
+    </view>
+  </view>
+
+  <view class="card stats">
+    <view class="stat"><text class="num">{{profile.pendingCount || 0}}</text><text class="muted">待整改</text></view>
+    <view class="stat"><text class="num">{{profile.inProgressCount || 0}}</text><text class="muted">进行中</text></view>
+    <view class="stat"><text class="num">{{profile.completedCount || 0}}</text><text class="muted">已完成</text></view>
+  </view>
+
+  <view class="card menu">
+    <view class="menu-item" bindtap="goTasks">
+      <text>我的整改任务</text>
+      <text class="arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goAnomalies">
+      <text>异常列表</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <button class="btn-ghost" bindtap="logout">退出登录</button>
+</view>

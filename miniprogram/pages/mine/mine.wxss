@@ -1,0 +1,84 @@
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 40rpx 28rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(135deg, #0f2a43 0%, #1a4a75 100%);
+  color: #ffffff;
+  margin-bottom: 24rpx;
+}
+
+.avatar {
+  width: 108rpx;
+  height: 108rpx;
+  line-height: 108rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.name {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.role {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.phone {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stats {
+  display: flex;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1f2d3d;
+}
+
+.menu {
+  padding: 0 28rpx;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f0f2f5;
+  font-size: 28rpx;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.arrow {
+  color: #c0c4cc;
+  font-size: 34rpx;
+}
+
+button {
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+}

@@ -1,0 +1,70 @@
+.tabs {
+  display: flex;
+  background: #ffffff;
+  padding: 0 12rpx;
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 24rpx 0;
+  font-size: 26rpx;
+  color: #606266;
+  border-bottom: 4rpx solid transparent;
+}
+
+.tab.active {
+  color: #1f6feb;
+  border-bottom-color: #1f6feb;
+  font-weight: 600;
+}
+
+.task .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.title {
+  font-size: 28rpx;
+  font-weight: 600;
+  flex: 1;
+}
+
+.device {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #606266;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #909399;
+}
+
+.danger { color: #e5484d; }
+
+.progress {
+  margin-top: 14rpx;
+  height: 10rpx;
+  background: #f0f2f5;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 10rpx;
+  background: #1f6feb;
+}
+
+.center {
+  text-align: center;
+  padding: 20rpx 0;
+}

@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="hero">
+    <view class="hello">你好，{{profile.realName || profile.username || '工程师'}}</view>
+    <view class="role">工程师工作台 · 今日待办</view>
+    <view class="stats">
+      <view class="stat">
+        <text class="num">{{profile.pendingCount || 0}}</text>
+        <text class="label">待整改</text>
+      </view>
+      <view class="stat">
+        <text class="num">{{profile.inProgressCount || 0}}</text>
+        <text class="label">进行中</text>
+      </view>
+      <view class="stat">
+        <text class="num">{{profile.completedCount || 0}}</text>
+        <text class="label">已完成</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="quick card">
+    <view class="quick-item" bindtap="goTasks">
+      <view class="quick-icon blue">任</view>
+      <text>整改任务</text>
+    </view>
+    <view class="quick-item" bindtap="goAnomalies">
+      <view class="quick-icon orange">异</view>
+      <text>异常列表</text>
+    </view>
+    <view class="quick-item" bindtap="goMine">
+      <view class="quick-icon green">我</view>
+      <text>个人中心</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">待整改任务</view>
+    <view wx:if="{{tasks.length === 0}}" class="muted">暂无待整改任务</view>
+    <view wx:for="{{tasks}}" wx:key="id" class="task-item" data-id="{{item.id}}" bindtap="openTask">
+      <view class="task-top">
+        <text class="task-title">{{item.title}}</text>
+        <text class="tag tag-warn">{{item.statusLabel}}</text>
+      </view>
+      <view class="muted">{{item.deviceName || '—'}} · 截止 {{item.deadline || '未设置'}}</view>
+      <view class="progress"><view class="progress-bar" style="width:{{item.progress || 0}}%"></view></view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,75 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: smarten-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-smarten_root_2026}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-smarten_energy}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+08:00
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./backend/src/main/resources/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./backend/src/main/resources/db/data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+    ports:
+      - "${MYSQL_PORT:-3307}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-smarten_root_2026}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/backend.Dockerfile
+    container_name: smarten-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SMARTEN_DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-smarten_energy}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      SMARTEN_DB_USERNAME: root
+      SMARTEN_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-smarten_root_2026}
+      SMARTEN_JWT_SECRET: ${SMARTEN_JWT_SECRET:-smarten-prod-secret-change-me-0123456789abcdef}
+      SMARTEN_CORS_ORIGINS: ${SMARTEN_CORS_ORIGINS:-http://localhost:8081}
+      SMARTEN_UPLOAD_DIR: /app/uploads
+      TZ: Asia/Shanghai
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/api/system/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 6
+      start_period: 60s
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/web.Dockerfile
+    container_name: smarten-web
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8081}:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql-data:
+  uploads:

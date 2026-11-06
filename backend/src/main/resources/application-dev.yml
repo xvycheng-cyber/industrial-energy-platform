@@ -1,0 +1,28 @@
+# 开发环境：本地 MySQL（3306），启动时幂等初始化表结构与种子数据，打印 SQL，开放 Swagger
+spring:
+  datasource:
+    url: "${SMARTEN_DB_URL:jdbc:mysql://localhost:3306/smarten_energy?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true}"
+    username: ${SMARTEN_DB_USERNAME:root}
+    password: ${SMARTEN_DB_PASSWORD:123456}
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+      continue-on-error: false
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+logging:
+  level:
+    com.smarten: debug
+    org.springframework.security: info

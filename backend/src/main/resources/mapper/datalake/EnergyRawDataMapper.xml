@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smarten.module.datalake.mapper.EnergyRawDataMapper">
+
+    <select id="countExpectedByMeter" resultType="java.util.Map">
+        SELECT m.id                         AS meter_id,
+               m.meter_code                 AS meter_code,
+               m.meter_name                 AS meter_name,
+               m.device_id                  AS device_id,
+               d.name                       AS device_name,
+               m.enterprise_id              AS enterprise_id,
+               m.energy_type_id             AS energy_type_id,
+               FLOOR(86400 / GREATEST(m.collect_interval_seconds, 1)) AS expected_count
+        FROM energy_meter m
+                 LEFT JOIN energy_device d ON d.id = m.device_id AND d.deleted = 0
+        WHERE m.deleted = 0
+          AND m.status = 1
+          AND (m.install_time IS NULL OR m.install_time &lt; DATE_ADD(#{date}, INTERVAL 1 DAY))
+        <if test="enterpriseId != null">
+            AND m.enterprise_id = #{enterpriseId}
+        </if>
+        ORDER BY m.id
+    </select>
+
+    <select id="countValidByMeter" resultType="java.util.Map">
+        SELECT r.meter_id AS meter_id,
+               COUNT(*)   AS valid_count
+        FROM energy_raw_data r
+        WHERE r.deleted = 0
+          AND r.quality &lt;&gt; 3
+          AND r.collect_time &gt;= #{date}
+          AND r.collect_time &lt; DATE_ADD(#{date}, INTERVAL 1 DAY)
+        <if test="enterpriseId != null">
+            AND r.enterprise_id = #{enterpriseId}
+        </if>
+        GROUP BY r.meter_id
+    </select>
+</mapper>

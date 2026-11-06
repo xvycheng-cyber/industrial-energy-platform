@@ -1,0 +1,28 @@
+<view class="tabs">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="label"
+    class="tab {{active === item.value ? 'active' : ''}}"
+    data-value="{{item.value}}"
+    bindtap="changeTab"
+  >{{item.label}}</view>
+</view>
+
+<view class="container">
+  <view wx:if="{{list.length === 0 && !loading}}" class="card muted">暂无任务</view>
+
+  <view wx:for="{{list}}" wx:key="id" class="card task" data-id="{{item.id}}" bindtap="openDetail">
+    <view class="top">
+      <text class="title">{{item.title}}</text>
+      <text class="tag {{item.status === 5 ? 'tag-danger' : item.status === 4 ? 'tag-success' : 'tag-warn'}}">{{item.statusLabel}}</text>
+    </view>
+    <view class="device">{{item.deviceName || '—'}} · {{item.lineName || '—'}}</view>
+    <view class="meta">
+      <text>截止 {{item.deadline || '未设置'}}</text>
+      <text wx:if="{{item.overdue}}" class="danger">已超期</text>
+    </view>
+    <view class="progress"><view class="progress-bar" style="width:{{item.progress || 0}}%"></view></view>
+  </view>
+
+  <view wx:if="{{loading}}" class="muted center">加载中…</view>
+</view>

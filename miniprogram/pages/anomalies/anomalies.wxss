@@ -1,0 +1,49 @@
+.chips {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 10rpx 26rpx;
+  border-radius: 999rpx;
+  background: #ffffff;
+  color: #606266;
+  font-size: 24rpx;
+}
+
+.chip.active {
+  background: #1f6feb;
+  color: #ffffff;
+}
+
+.anomaly .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.rule {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.device {
+  font-size: 26rpx;
+  color: #606266;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14rpx;
+  font-size: 22rpx;
+  color: #909399;
+}
+
+.center {
+  text-align: center;
+  padding: 20rpx 0;
+}

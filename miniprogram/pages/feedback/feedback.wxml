@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="card">
+    <view class="field">
+      <text class="label">整改说明 <text class="required">*</text></text>
+      <textarea class="textarea" value="{{content}}" placeholder="描述已采取的整改措施" bindinput="onContent" maxlength="800" />
+    </view>
+    <view class="field">
+      <text class="label">整改前情况</text>
+      <textarea class="textarea" value="{{beforeDesc}}" placeholder="整改前的设备状态/能耗表现" bindinput="onBefore" maxlength="500" />
+    </view>
+    <view class="field">
+      <text class="label">整改后情况</text>
+      <textarea class="textarea" value="{{afterDesc}}" placeholder="整改后的设备状态/能耗变化" bindinput="onAfter" maxlength="500" />
+    </view>
+    <view class="field">
+      <text class="label">实际节能量（kWh）</text>
+      <input class="input" type="digit" value="{{actualSaving}}" placeholder="选填" bindinput="onSaving" />
+    </view>
+    <view class="field switch-row">
+      <text class="label">提交完工（进入待审核）</text>
+      <switch checked="{{complete}}" color="#1f6feb" bindchange="onComplete" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">现场图片（最多 9 张，单张 ≤5MB）</view>
+    <view class="images">
+      <view wx:for="{{images}}" wx:key="*this" class="image-box">
+        <image src="{{item}}" mode="aspectFill" data-src="{{item}}" bindtap="preview" />
+        <view class="remove" data-index="{{index}}" catchtap="removeImage">×</view>
+      </view>
+      <view wx:if="{{images.length < 9}}" class="image-add" bindtap="chooseImages">+</view>
+    </view>
+    <view wx:if="{{uploading}}" class="muted">图片上传中…</view>
+  </view>
+
+  <button class="btn-primary" loading="{{submitting}}" bindtap="submit">提交反馈</button>
+</view>

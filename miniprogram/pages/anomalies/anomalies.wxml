@@ -1,0 +1,29 @@
+<view class="container">
+  <view class="chips">
+    <view
+      wx:for="{{severityOptions}}"
+      wx:key="value"
+      class="chip {{severity === item.value ? 'active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="changeSeverity"
+    >{{item.label}}</view>
+  </view>
+
+  <view wx:if="{{list.length === 0 && !loading}}" class="card muted">暂无异常数据</view>
+
+  <view wx:for="{{list}}" wx:key="id" class="card anomaly" data-id="{{item.id}}" bindtap="openDetail">
+    <view class="top">
+      <text class="rule">{{item.ruleCode}} {{item.ruleName}}</text>
+      <text class="tag {{item.severity >= 3 ? 'tag-danger' : 'tag-warn'}}">{{item.riskLabel}}</text>
+    </view>
+    <view class="device">{{item.deviceName || '设备'}} · {{item.lineName || '—'}}</view>
+    <view class="meta">
+      <text>评分 {{item.riskScore || 0}}</text>
+      <text>偏差 {{item.deviationRate || 0}}%</text>
+      <text>{{item.periodStart}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="muted center">加载中…</view>
+  <view wx:if="{{list.length >= total && list.length > 0}}" class="muted center">没有更多了</view>
+</view>

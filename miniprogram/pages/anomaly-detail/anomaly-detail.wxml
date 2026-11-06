@@ -1,0 +1,30 @@
+<view class="container" wx:if="{{item}}">
+  <view class="card">
+    <view class="top">
+      <text class="rule">{{item.ruleCode}} {{item.ruleName}}</text>
+      <text class="tag {{item.severity >= 3 ? 'tag-danger' : 'tag-warn'}}">{{item.riskLabel}}</text>
+    </view>
+    <view class="row"><text class="row-label">设备</text><text class="row-value">{{item.deviceName}}（{{item.deviceCode}}）</text></view>
+    <view class="row"><text class="row-label">产线/车间</text><text class="row-value">{{item.lineName || '—'}} / {{item.workshopName || '—'}}</text></view>
+    <view class="row"><text class="row-label">异常区间</text><text class="row-value">{{item.periodStart}} ~ {{item.periodEnd}}</text></view>
+    <view class="row"><text class="row-label">持续时长</text><text class="row-value">{{item.durationMinutes}} 分钟</text></view>
+    <view class="row"><text class="row-label">处理状态</text><text class="row-value">{{item.statusLabel}}</text></view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">能耗对比</view>
+    <view class="metrics">
+      <view class="metric"><text class="num">{{item.actualValue}}</text><text class="muted">实际 kWh</text></view>
+      <view class="metric"><text class="num">{{item.baselineValue}}</text><text class="muted">基线 kWh</text></view>
+      <view class="metric"><text class="num danger">{{item.deviationRate}}%</text><text class="muted">偏差率</text></view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">规则证据</view>
+    <text class="evidence">{{evidence}}</text>
+  </view>
+
+  <button class="btn-ghost" bindtap="back">返回</button>
+</view>
+<view wx:else class="container muted">加载中…</view>

@@ -1,0 +1,31 @@
+{
+  "name": "smarten-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "智能耗 · 工业企业能耗画像与节能诊断平台 Web 管理端",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "axios": "^1.7.7",
+    "echarts": "^5.5.1",
+    "element-plus": "^2.8.4",
+    "pinia": "^2.2.4",
+    "three": "^0.169.0",
+    "vue": "^3.5.11",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.11",
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.8",
+    "vue-tsc": "^2.1.6"
+  }
+}

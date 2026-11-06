@@ -1,0 +1,31 @@
+# Java / Maven
+backend/target/
+*.class
+
+# Node / Vite
+web/node_modules/
+web/dist/
+web/.build-tmp/
+web/*.local
+
+# 日志
+logs/
+*.log
+
+# 环境变量与本地数据（保留示例文件）
+.env
+.env.*
+!.env.example
+backend/uploads/
+
+# 微信开发者工具
+miniprogram/project.private.config.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 系统
+.DS_Store
+Thumbs.db

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smarten.module.datalake.mapper.EnergyAggregateMapper">
+
+    <!-- bucket 由 Java 端白名单给出，不接受外部输入 -->
+    <insert id="aggregateDevice">
+        INSERT INTO energy_aggregate (enterprise_id, dim_type, dim_id, energy_type_id, period_type, period_start,
+                                      energy_value, cost_amount, data_count, missing_count, calc_version,
+                                      create_time, update_time, deleted)
+        SELECT d.enterprise_id,
+               4,
+               d.device_id,
+               d.energy_type_id,
+               #{periodType},
+               ${bucket},
+               ROUND(SUM(d.energy_value), 4),
+               ROUND(SUM(d.energy_value * IFNULL(et.price, 0)), 2),
+               COUNT(*),
+               0,
+               #{version},
+               NOW(),
+               NOW(),
+               0
+        FROM energy_detail d
+                 LEFT JOIN energy_type et ON et.id = d.energy_type_id
+        WHERE d.deleted = 0
+          AND d.device_id IS NOT NULL
+          AND d.period_start &gt;= #{start}
+          AND d.period_start &lt; #{end}
+        GROUP BY d.enterprise_id, d.device_id, d.energy_type_id, ${bucket}
+        ON DUPLICATE KEY UPDATE energy_value = VALUES(energy_value),
+                                cost_amount  = VALUES(cost_amount),
+                                data_count   = VALUES(data_count),
+                                calc_version = VALUES(calc_version),
+                                update_time  = NOW()
+    </insert>
+
+    <insert id="aggregateLine">
+        INSERT INTO energy_aggregate (enterprise_id, dim_type, dim_id, energy_type_id, period_type, period_start,
+                                      energy_value, cost_amount, data_count, missing_count, calc_version,
+                                      create_time, update_time, deleted)
+        SELECT d.enterprise_id,
+               3,
+               COALESCE(d.line_id, dv.line_id),
+               d.energy_type_id,
+               #{periodType},
+               ${bucket},
+               ROUND(SUM(d.energy_value), 4),
+               ROUND(SUM(d.energy_value * IFNULL(et.price, 0)), 2),
+               COUNT(*),
+               0,
+               #{version},
+               NOW(),
+               NOW(),
+               0
+        FROM energy_detail d
+                 LEFT JOIN energy_device dv ON dv.id = d.device_id AND dv.deleted = 0
+                 LEFT JOIN energy_type et ON et.id = d.energy_type_id
+        WHERE d.deleted = 0
+          AND COALESCE(d.line_id, dv.line_id) IS NOT NULL
+          AND d.period_start &gt;= #{start}
+          AND d.period_start &lt; #{end}
+        GROUP BY d.enterprise_id, COALESCE(d.line_id, dv.line_id), d.energy_type_id, ${bucket}
+        ON DUPLICATE KEY UPDATE energy_value = VALUES(energy_value),
+                                cost_amount  = VALUES(cost_amount),
+                                data_count   = VALUES(data_count),
+                                calc_version = VALUES(calc_version),
+                                update_time  = NOW()
+    </insert>
+
+    <insert id="aggregateWorkshop">
+        INSERT INTO energy_aggregate (enterprise_id, dim_type, dim_id, energy_type_id, period_type, period_start,
+                                      energy_value, cost_amount, data_count, missing_count, calc_version,
+                                      create_time, update_time, deleted)
+        SELECT d.enterprise_id,
+               2,
+               COALESCE(dv.workshop_id, l.workshop_id),
+               d.energy_type_id,
+               #{periodType},
+               ${bucket},
+               ROUND(SUM(d.energy_value), 4),
+               ROUND(SUM(d.energy_value * IFNULL(et.price, 0)), 2),
+               COUNT(*),
+               0,
+               #{version},
+               NOW(),
+               NOW(),
+               0
+        FROM energy_detail d
+                 LEFT JOIN energy_device dv ON dv.id = d.device_id AND dv.deleted = 0
+                 LEFT JOIN energy_line l ON l.id = d.line_id AND l.deleted = 0
+                 LEFT JOIN energy_type et ON et.id = d.energy_type_id
+        WHERE d.deleted = 0
+          AND (dv.workshop_id IS NOT NULL OR l.workshop_id IS NOT NULL)
+          AND d.period_start &gt;= #{start}
+          AND d.period_start &lt; #{end}
+        GROUP BY d.enterprise_id, COALESCE(dv.workshop_id, l.workshop_id), d.energy_type_id, ${bucket}
+        ON DUPLICATE KEY UPDATE energy_value = VALUES(energy_value),
+                                cost_amount  = VALUES(cost_amount),
+                                data_count   = VALUES(data_count),
+                                calc_version = VALUES(calc_version),
+                                update_time  = NOW()
+    </insert>
+
+    <insert id="aggregateEnterprise">
+        INSERT INTO energy_aggregate (enterprise_id, dim_type, dim_id, energy_type_id, period_type, period_start,
+                                      energy_value, cost_amount, data_count, missing_count, calc_version,
+                                      create_time, update_time, deleted)
+        SELECT d.enterprise_id,
+               1,
+               d.enterprise_id,
+               d.energy_type_id,
+               #{periodType},
+               ${bucket},
+               ROUND(SUM(d.energy_value), 4),
+               ROUND(SUM(d.energy_value * IFNULL(et.price, 0)), 2),
+               COUNT(*),
+               0,
+               #{version},
+               NOW(),
+               NOW(),
+               0
+        FROM energy_detail d
+                 LEFT JOIN energy_type et ON et.id = d.energy_type_id
+        WHERE d.deleted = 0
+          AND d.period_start &gt;= #{start}
+          AND d.period_start &lt; #{end}
+        GROUP BY d.enterprise_id, d.energy_type_id, ${bucket}
+        ON DUPLICATE KEY UPDATE energy_value = VALUES(energy_value),
+                                cost_amount  = VALUES(cost_amount),
+                                data_count   = VALUES(data_count),
+                                calc_version = VALUES(calc_version),
+                                update_time  = NOW()
+    </insert>
+</mapper>
